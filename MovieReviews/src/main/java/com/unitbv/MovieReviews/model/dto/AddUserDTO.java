@@ -15,5 +15,4 @@ public class AddUserDTO {
     private String username;
     @Nonnull
     private String password;
-
 }
