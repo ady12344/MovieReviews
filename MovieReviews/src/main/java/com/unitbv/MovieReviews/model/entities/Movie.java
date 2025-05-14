@@ -23,4 +23,5 @@ public class Movie {
     private String description;
     private String author;
     private String release_date;
+    private String cover_url;
 }

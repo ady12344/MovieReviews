@@ -2,6 +2,7 @@ package com.unitbv.MovieReviews.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unitbv.MovieReviews.model.dto.AddMovieDTO;
+import com.unitbv.MovieReviews.model.dto.EditMovieDTO;
 import com.unitbv.MovieReviews.model.dto.MovieDTO;
 import com.unitbv.MovieReviews.model.dto.RemoveMovieDTO;
 import com.unitbv.MovieReviews.service.MovieService;
@@ -14,23 +15,27 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("api/v1/")
 
 public class MovieControllers {
     private final MovieService movieService;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    @GetMapping
+    @GetMapping("/getAllMovies")
     public List<MovieDTO> getMovies() {
         return movieService.getAllMovies().stream().map(movie -> mapper.convertValue(movie, MovieDTO.class)).collect(Collectors.toList());
     }
+    @PutMapping("/editMovie")
+    public ResponseEntity<EditMovieDTO> editMovie(@RequestBody EditMovieDTO editMovieDTO) {
+        return movieService.editMovie(editMovieDTO);
+    }
 
-    @PostMapping("api/v1/addMovie")
+    @PostMapping("/addMovie")
     public ResponseEntity<AddMovieDTO> addMovie(@RequestBody AddMovieDTO addMovieDTO){
         return movieService.addMovie(addMovieDTO);
     }
 
-    @PostMapping("api/v1/removeMovie")
+    @PostMapping("/removeMovie")
     public ResponseEntity<RemoveMovieDTO> removeMovie(@RequestBody RemoveMovieDTO removeMovieDTO){
         return movieService.deleteMovieByTitleAndAuthor(removeMovieDTO);
     }

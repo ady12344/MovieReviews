@@ -1,6 +1,5 @@
 package com.unitbv.MovieReviews.model.dto;
 
-import com.unitbv.MovieReviews.model.entities.Movie;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -20,5 +19,7 @@ public class MovieDTO {
     private String author;
     @Nonnull
     private String release_date;
+    @Nonnull
+    private String cover_url;
 
 }

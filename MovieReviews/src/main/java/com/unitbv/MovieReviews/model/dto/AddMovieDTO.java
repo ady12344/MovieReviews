@@ -19,5 +19,7 @@ public class AddMovieDTO {
     @Nonnull
     private String author;
     @Nonnull
-    private String releaseDate;
+    private String release_date;
+    @Nonnull
+    private String cover_url;
 }
