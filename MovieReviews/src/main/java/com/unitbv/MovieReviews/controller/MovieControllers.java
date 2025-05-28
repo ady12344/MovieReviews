@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 
 public class MovieControllers {
     private final MovieService movieService;
@@ -41,7 +41,7 @@ public class MovieControllers {
         return movieService.deleteMovieByTitleAndAuthor(removeMovieDTO);
     }
 
-    @PostMapping("/getMoviesByGenre")
+    @GetMapping("/getMoviesByGenre")
     public List<MovieDTO> getMoviesByGenre(@Param("genre") String genre) {
         return movieService.getMoviesByGenre(genre);
     }

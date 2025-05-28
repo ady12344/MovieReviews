@@ -14,6 +14,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     Optional<Movie> findByTitle(String title);
     Optional<Movie> findByAuthor(String author);
     Optional<Movie> findByTitleAndAuthor(String title, String author);
-    @Query("SELECT m FROM Movie m WHERE LOWER(m.genre) LIKE LOWER(CONCAT('%', :genre, '%'))")
-    List<Movie> findByGenre(@Param("genre") String genre);
+    /*@Query("SELECT m FROM Movie m WHERE LOWER(m.genre) LIKE LOWER(CONCAT('%', :genre, '%'))")
+    List<Movie> findByGenre(@Param("genre") String genre);*/
+    Optional<List<Movie>> findAllByGenreContaining(String genre);
 }
