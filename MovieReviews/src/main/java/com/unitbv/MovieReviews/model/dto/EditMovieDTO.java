@@ -25,5 +25,9 @@ public class EditMovieDTO {
     private String newRelease_date;
     @Nonnull
     private String newCover_url;
+    @Nonnull
+    private String newGenre;
+    @Nonnull
+    private float newRating;
 
 }

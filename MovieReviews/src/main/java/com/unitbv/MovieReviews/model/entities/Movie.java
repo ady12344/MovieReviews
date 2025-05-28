@@ -24,4 +24,6 @@ public class Movie {
     private String author;
     private String release_date;
     private String cover_url;
+    private float rating;
+    private String genre;
 }
