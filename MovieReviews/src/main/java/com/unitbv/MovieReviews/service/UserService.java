@@ -3,19 +3,44 @@ package com.unitbv.MovieReviews.service;
 import com.unitbv.MovieReviews.model.entities.User;
 import com.unitbv.MovieReviews.model.dto.AddUserDTO;
 import com.unitbv.MovieReviews.model.dto.LoginUserDTO;
+import com.unitbv.MovieReviews.model.entities.UserSecurity;
 import com.unitbv.MovieReviews.repositories.UserRepository;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.net.Authenticator;
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Service
-public class UserService {
+@Log4j2
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-
+    @Autowired
+    @Lazy
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    @Lazy
+    private AuthenticationManager authenticationManager;
     public ResponseEntity<AddUserDTO> addUser(AddUserDTO addUserDTO) {
         User user = User.builder().username(addUserDTO.getUsername())
-                .password(addUserDTO.getPassword())
+                .password(passwordEncoder.encode(addUserDTO.getPassword()))
                 .email(addUserDTO.getEmail())
                 .build();
         if(userRepository.findByEmail(user.getEmail()).isPresent() ||
@@ -28,11 +53,24 @@ public class UserService {
         userRepository.save(user);
         return new ResponseEntity<>(addUserDTO, HttpStatus.CREATED);
     }
-    public ResponseEntity<LoginUserDTO> loginUser(LoginUserDTO loginUserDTO) {
-        if(userRepository.findUserByUsernameAndPassword(loginUserDTO.getUsername(), loginUserDTO.getPassword()).isPresent()) {
-            return new ResponseEntity<>(loginUserDTO, HttpStatus.OK);
+    public ResponseEntity<Void> loginUser(LoginUserDTO loginUserDTO) {
+        try{
+            Authentication authenticationRequest = new UsernamePasswordAuthenticationToken(loginUserDTO.getUsername(), loginUserDTO.getPassword());
+            Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
+            SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
+            return ResponseEntity.ok().build();
+
         }
-        return new ResponseEntity<>(loginUserDTO, HttpStatus.UNAUTHORIZED);
+        catch(AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        return new UserSecurity(user);
+
+    }
 }
