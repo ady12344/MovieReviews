@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Getter

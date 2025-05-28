@@ -18,7 +18,7 @@ class MovieReviewsApplicationTests {
 
 	@Test
 	void importFirst20MoviesFromCSV() {
-		String filePath = "src/test/resources/imdb_top_1000.csv"; // move your CSV here
+		String filePath = "src/test/resources/Movies_with_Random_Directors.csv"; // move your CSV here
 		try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
 			List<String[]> rows = reader.readAll();
 			List<Movie> movies = new ArrayList<>();
@@ -28,12 +28,12 @@ class MovieReviewsApplicationTests {
 
 				Movie movie = new Movie();
 				movie.setTitle(row[1]);         // Series_Title
-				movie.setDescription(row[7]);  // Overview
-				movie.setAuthor(row[9]);       // Director
-				movie.setRelease_date(row[2]);  // Released_Year
-				movie.setCover_url(row[0]);     // Poster_Link
-				movie.setRating(Float.parseFloat(row[6])); // IMDB_Rating
-				movie.setGenre(row[5]);
+				movie.setDescription(row[2]);   // Overview
+				movie.setAuthor(row[9]);        // Director
+				movie.setRelease_date(row[0]);  // Released_Year
+				movie.setCover_url(row[8]);     // Poster_Link
+				movie.setRating(Float.parseFloat(row[5])); // IMDB_Rating
+				movie.setGenre(row[7]);
 
 				movies.add(movie);
 			}
