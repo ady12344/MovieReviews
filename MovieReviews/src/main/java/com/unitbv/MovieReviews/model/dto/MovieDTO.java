@@ -2,6 +2,7 @@ package com.unitbv.MovieReviews.model.dto;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @NoArgsConstructor
@@ -21,5 +22,9 @@ public class MovieDTO {
     private String release_date;
     @Nonnull
     private String cover_url;
+    @Nonnull
+    private String genre;
+    @Nonnull
+    private float rating;
 
 }

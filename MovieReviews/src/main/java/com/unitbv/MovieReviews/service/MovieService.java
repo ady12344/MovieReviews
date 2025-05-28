@@ -1,5 +1,6 @@
 package com.unitbv.MovieReviews.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unitbv.MovieReviews.model.dto.AddMovieDTO;
 import com.unitbv.MovieReviews.model.dto.EditMovieDTO;
 import com.unitbv.MovieReviews.model.dto.MovieDTO;
@@ -14,12 +15,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
 @Service
 @Log4j2
 public class MovieService {
+    private ObjectMapper objectMapper = new ObjectMapper();
     private final MovieRepository movieRepository;
 
     public List<Movie> getAllMovies() {
@@ -71,13 +74,13 @@ public class MovieService {
         return new ResponseEntity<>(removeMovieDTO, HttpStatus.OK);
     }
 
-    public List<MovieDTO> getMoviesByGenre(String genre) {
-        List<Movie> movies = movieRepository.findByGenre(genre);
-        return movies.stream().map(this::convertToDTO).toList(); // convertToDTO should map Movie to MovieDTO
+   public List<MovieDTO> getMoviesByGenre(String genre) {
+        List<Movie> movies = movieRepository.findAllByGenreContaining(genre).get();
+        return movies.stream().map(movie -> objectMapper.convertValue(movie , MovieDTO.class)).collect(Collectors.toList()); // convertToDTO should map Movie to MovieDTO
     }
 
-    private MovieDTO convertToDTO(Movie movie) {
+   /* private MovieDTO convertToDTO(Movie movie) {
         return new MovieDTO(movie.getTitle(), movie.getAuthor(), movie.getDescription(), movie.getRelease_date(), movie.getCover_url());
-    }
+    }*/
 
 }

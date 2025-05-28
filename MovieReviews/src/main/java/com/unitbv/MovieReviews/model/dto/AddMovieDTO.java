@@ -22,4 +22,5 @@ public class AddMovieDTO {
     private String release_date;
     @Nonnull
     private String cover_url;
+
 }
