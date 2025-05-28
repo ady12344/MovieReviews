@@ -7,6 +7,7 @@ import com.unitbv.MovieReviews.model.dto.MovieDTO;
 import com.unitbv.MovieReviews.model.dto.RemoveMovieDTO;
 import com.unitbv.MovieReviews.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,10 @@ public class MovieControllers {
     @PostMapping("/removeMovie")
     public ResponseEntity<RemoveMovieDTO> removeMovie(@RequestBody RemoveMovieDTO removeMovieDTO){
         return movieService.deleteMovieByTitleAndAuthor(removeMovieDTO);
+    }
+
+    @PostMapping("/getMoviesByGenre")
+    public List<MovieDTO> getMoviesByGenre(@Param("genre") String genre) {
+        return movieService.getMoviesByGenre(genre);
     }
 }

@@ -2,6 +2,7 @@ package com.unitbv.MovieReviews.service;
 
 import com.unitbv.MovieReviews.model.dto.AddMovieDTO;
 import com.unitbv.MovieReviews.model.dto.EditMovieDTO;
+import com.unitbv.MovieReviews.model.dto.MovieDTO;
 import com.unitbv.MovieReviews.model.dto.RemoveMovieDTO;
 import com.unitbv.MovieReviews.model.entities.Movie;
 import com.unitbv.MovieReviews.repositories.MovieRepository;
@@ -69,4 +70,14 @@ public class MovieService {
 
         return new ResponseEntity<>(removeMovieDTO, HttpStatus.OK);
     }
+
+    public List<MovieDTO> getMoviesByGenre(String genre) {
+        List<Movie> movies = movieRepository.findByGenre(genre);
+        return movies.stream().map(this::convertToDTO).toList(); // convertToDTO should map Movie to MovieDTO
+    }
+
+    private MovieDTO convertToDTO(Movie movie) {
+        return new MovieDTO(movie.getTitle(), movie.getAuthor(), movie.getDescription(), movie.getRelease_date(), movie.getCover_url());
+    }
+
 }
