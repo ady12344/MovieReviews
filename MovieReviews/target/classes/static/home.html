@@ -1,7 +1,33 @@
 <div class="container mt-4">
     <h2 class="mb-4 text-center">All Movies</h2>
+
+    <!-- Genre filter dropdown -->
+    <div class="mb-3">
+        <label for="genreSelect" class="form-label">Filter by Genre</label>
+        <select class="form-select" id="genreSelect">
+            <option value="">Select Genre</option>
+            <option value="Action">Action</option>
+            <option value="Drama">Drama</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Horror">Horror</option>
+            <option value="Animation">Animation</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Family">Family</option>
+            <option value="Crime">Crime</option>
+            <option value="Music">Music</option>
+            <option value="Romance">Romance</option>
+            <option value="Adventure">Adventure</option>
+            <option value="History">History</option>
+            <option value="Western">Western</option>
+            <option value="War">War</option>
+            <option value="TV Movie">TV Movie</option>
+            <option value="Documentary">Documentary</option>
+        </select>
+    </div>
+
     <div id="movieContainer" class="row gy-4"></div>
 </div>
 
-<!-- This script will be dynamically loaded -->
 <script data-external src="scripts/showMovies.js"></script>
