@@ -24,33 +24,36 @@
 </head>
 <body onload="loadPage('home.html')">
 <nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-between">
         <a class="navbar-brand" href="#">
             <img src="assets/website/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
             MovieReviews
         </a>
-        <ul class="nav">
+        <ul class="nav align-items-center">
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('home.html')">Acasă</a></li>
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('about.html')">Despre</a></li>
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('contact.html')">Contact</a></li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="profileBtn" style="display: none; font-weight: bold; color: orange !important;"></a>
+            </li>
         </ul>
     </div>
 </nav>
 
+
 <div id="content" class="container mt-4"></div>
 
 <script>
-    function loadPage(page) {
+    function loadPage(page, callback) {
         fetch(page)
             .then(response => response.text())
             .then(data => {
                 const content = document.getElementById('content');
                 content.innerHTML = data;
 
-                // Load external script marked with data-external
+                // Load external script if it exists
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = data;
-
                 const scriptTag = tempDiv.querySelector('script[data-external]');
                 if (scriptTag) {
                     const scriptSrc = scriptTag.getAttribute('src');
@@ -59,9 +62,32 @@
                     script.setAttribute('defer', 'true');
                     document.body.appendChild(script);
                 }
+
+
+                if (callback) callback();
             })
             .catch(error => console.error('Eroare la încărcarea paginii:', error));
     }
 </script>
+<script>
+
+        // Show username in navbar if logged in
+        fetch('/api/v1/getCurrentUsername')
+        .then(res => {
+        if (res.ok) return res.text();
+        else throw new Error("Not logged in");
+    })
+        .then(username => {
+        const profileLink = document.getElementById('profileBtn');
+        profileLink.textContent = username;
+        profileLink.style.display = 'inline'; // Make it visible
+    })
+        .catch(() => {
+        // User is not logged in, don't show profile link
+        document.getElementById('profileBtn').style.display = 'none';
+    });
+</script>
+<script src="scripts/logout.js" defer></script>
+<script src="scripts/profile.js" defer></script>
 </body>
 </html>

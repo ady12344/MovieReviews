@@ -60,7 +60,8 @@ public class SecurityConfig {
                        .permitAll() // Allow all users to access the login page
                )
                .logout(logout -> logout
-                       .logoutSuccessUrl("/login.html") // Redirect to login page after logout
+                       .logoutUrl("/api/v1/logout") // added
+                       .logoutSuccessUrl("/login.html")// Redirect to login page after logout
                        .permitAll() // Allow everyone to log out
                )
                .sessionManagement(session -> session

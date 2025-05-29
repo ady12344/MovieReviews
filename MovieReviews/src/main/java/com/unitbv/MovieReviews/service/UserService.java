@@ -1,5 +1,7 @@
 package com.unitbv.MovieReviews.service;
 
+import com.unitbv.MovieReviews.model.dto.ChangePasswordDTO;
+import com.unitbv.MovieReviews.model.dto.UserProfilDTO;
 import com.unitbv.MovieReviews.model.entities.User;
 import com.unitbv.MovieReviews.model.dto.AddUserDTO;
 import com.unitbv.MovieReviews.model.dto.LoginUserDTO;
@@ -64,6 +66,35 @@ public class UserService implements UserDetailsService {
         catch(AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+    public String getCurrentUser() {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            return authentication.getName();
+
+        }catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public UserProfilDTO getUserByUsername(String username){
+        User user = userRepository.findUserByUsername(username).get();
+        if(userRepository.findByUsername(username).isPresent()) {
+            UserProfilDTO userProfilDTO = UserProfilDTO.builder().username(user.getUsername()).email(user.getEmail()).build();
+            return userProfilDTO;
+        }else
+            return null;
+    }
+
+    public boolean changePassword(String oldPassword, String newPassword) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        if(!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            return false;
+        }
+        userRepository.updatePassword(passwordEncoder.encode(newPassword), username);
+        return true;
     }
 
 
