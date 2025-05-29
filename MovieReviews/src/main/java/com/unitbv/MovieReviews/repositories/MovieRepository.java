@@ -1,6 +1,8 @@
 package com.unitbv.MovieReviews.repositories;
 
 import com.unitbv.MovieReviews.model.entities.Movie;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,5 +18,8 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     Optional<Movie> findById(Long id);
     Optional<Movie> findByAuthor(String author);
     Optional<Movie> findByTitleAndAuthor(String title, String author);
+
+    // Modify this method to support pagination
+    Page<Movie> findAllByGenreContaining(String genre, Pageable pageable);
     Optional<List<Movie>> findAllByGenreContaining(String genre);
 }

@@ -40,7 +40,6 @@
     </div>
 </nav>
 
-
 <div id="content" class="container mt-4"></div>
 
 <script>
@@ -63,7 +62,6 @@
                     document.body.appendChild(script);
                 }
 
-
                 if (callback) callback();
             })
             .catch(error => console.error('Eroare la încărcarea paginii:', error));
@@ -71,21 +69,21 @@
 </script>
 <script>
 
-        // Show username in navbar if logged in
-        fetch('/api/v1/getCurrentUsername')
+    // Show username in navbar if logged in
+    fetch('/api/v1/getCurrentUsername')
         .then(res => {
-        if (res.ok) return res.text();
-        else throw new Error("Not logged in");
-    })
+            if (res.ok) return res.text();
+            else throw new Error("Not logged in");
+        })
         .then(username => {
-        const profileLink = document.getElementById('profileBtn');
-        profileLink.textContent = username;
-        profileLink.style.display = 'inline'; // Make it visible
-    })
+            const profileLink = document.getElementById('profileBtn');
+            profileLink.textContent = username;
+            profileLink.style.display = 'inline'; // Make it visible
+        })
         .catch(() => {
-        // User is not logged in, don't show profile link
-        document.getElementById('profileBtn').style.display = 'none';
-    });
+            // User is not logged in, don't show profile link
+            document.getElementById('profileBtn').style.display = 'none';
+        });
 </script>
 <script src="scripts/logout.js" defer></script>
 <script src="scripts/profile.js" defer></script>

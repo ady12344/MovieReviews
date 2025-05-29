@@ -7,7 +7,9 @@ import com.unitbv.MovieReviews.model.dto.MovieDTO;
 import com.unitbv.MovieReviews.model.dto.RemoveMovieDTO;
 import com.unitbv.MovieReviews.service.MovieService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +21,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/")
 
 public class MovieControllers {
+
     private final MovieService movieService;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @GetMapping("/getAllMovies")
-    public List<MovieDTO> getMovies() {
-        return movieService.getAllMovies().stream().map(movie -> mapper.convertValue(movie, MovieDTO.class)).collect(Collectors.toList());
+    public ResponseEntity<Page<MovieDTO>> getMovies(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MovieDTO> moviePage = movieService.getAllMovies(pageable);
+        return ResponseEntity.ok(moviePage);  // Return the page with pagination data
     }
+
+
+
     @PutMapping("/editMovie")
     public ResponseEntity<EditMovieDTO> editMovie(@RequestBody EditMovieDTO editMovieDTO) {
         return movieService.editMovie(editMovieDTO);
@@ -42,8 +52,13 @@ public class MovieControllers {
     }
 
     @GetMapping("/getMoviesByGenre")
-    public List<MovieDTO> getMoviesByGenre(@Param("genre") String genre) {
-        return movieService.getMoviesByGenre(genre);
+    public ResponseEntity<Page<MovieDTO>> getMoviesByGenre(
+            @RequestParam("genre") String genre,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MovieDTO> moviePage = movieService.getMoviesByGenre(genre, pageable);
+        return ResponseEntity.ok(moviePage);  // Spring will automatically return totalPages, totalElements, etc.
     }
 
     @GetMapping("/getMovieById")

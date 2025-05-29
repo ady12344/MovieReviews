@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +24,13 @@ import java.util.stream.Collectors;
 @Service
 @Log4j2
 public class MovieService {
-    private ObjectMapper objectMapper = new ObjectMapper();
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final MovieRepository movieRepository;
 
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+    public Page<MovieDTO> getAllMovies(Pageable pageable) {
+        return movieRepository.findAll(pageable)
+                .map(movie -> objectMapper.convertValue(movie, MovieDTO.class));
     }
 
     public ResponseEntity<EditMovieDTO> editMovie(EditMovieDTO editMovieDTO) {
@@ -70,13 +74,13 @@ public class MovieService {
         }
 
         movieRepository.delete(movie.get());
-
         return new ResponseEntity<>(removeMovieDTO, HttpStatus.OK);
     }
 
-   public List<MovieDTO> getMoviesByGenre(String genre) {
-        List<Movie> movies = movieRepository.findAllByGenreContaining(genre).get();
-        return movies.stream().map(movie -> objectMapper.convertValue(movie , MovieDTO.class)).collect(Collectors.toList()); // convertToDTO should map Movie to MovieDTO
+    // Modify getMoviesByGenre to accept Pageable and return a Page<MovieDTO>
+    public Page<MovieDTO> getMoviesByGenre(String genre, Pageable pageable) {
+        return movieRepository.findAllByGenreContaining(genre, pageable)
+                .map(movie -> objectMapper.convertValue(movie, MovieDTO.class));
     }
 
     public ResponseEntity<MovieDTO> getMovieById(Long id) {
