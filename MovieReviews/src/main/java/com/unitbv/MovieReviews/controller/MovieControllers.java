@@ -45,4 +45,9 @@ public class MovieControllers {
     public List<MovieDTO> getMoviesByGenre(@Param("genre") String genre) {
         return movieService.getMoviesByGenre(genre);
     }
+
+    @GetMapping("/getMovieById")
+    public ResponseEntity<MovieDTO> getMoviesById(@Param("id") Long id) {
+        return movieService.getMovieById(id);
+    }
 }

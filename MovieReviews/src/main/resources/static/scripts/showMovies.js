@@ -1,9 +1,9 @@
 (function loadMovies() {
-    console.log("loadMovies.js running");
+    console.log("showMovies.js running");
 
     const container = document.getElementById('movieContainer');
     if (!container) {
-        console.error(" #movieContainer not found");
+        console.error("#movieContainer not found");
         return;
     }
 
@@ -13,7 +13,6 @@
             return response.json();
         })
         .then(data => {
-            console.log("Movies received:", data);
             container.innerHTML = '';
 
             if (data.length === 0) {
@@ -26,7 +25,7 @@
                 col.className = 'col-md-3';
 
                 col.innerHTML = `
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm movie-card" data-id="${movie.id}" style="cursor: pointer;">
                         <img src="${movie.cover_url}" class="card-img-top" alt="${movie.title}" style="height: 300px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title">${movie.title}</h5>
@@ -35,7 +34,28 @@
                         </div>
                     </div>
                 `;
+
                 container.appendChild(col);
+
+                // Click handler: load movie.html and inject the movie details
+                col.querySelector('.movie-card').addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+
+                    fetch('movie.html')
+                        .then(res => res.text())
+                        .then(html => {
+                            document.getElementById('content').innerHTML = html;
+
+                            // After movie.html content is injected, load the script
+                            const script = document.createElement('script');
+                            script.src = 'scripts/movieDetail.js';
+                            script.onload = () => loadMovieDetail(id); // call function with ID
+                            document.body.appendChild(script);
+                        })
+                        .catch(err => {
+                            console.error("Failed to load movie.html:", err);
+                        });
+                });
             });
         })
         .catch(error => {

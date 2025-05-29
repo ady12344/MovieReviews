@@ -79,8 +79,11 @@ public class MovieService {
         return movies.stream().map(movie -> objectMapper.convertValue(movie , MovieDTO.class)).collect(Collectors.toList()); // convertToDTO should map Movie to MovieDTO
     }
 
-   /* private MovieDTO convertToDTO(Movie movie) {
-        return new MovieDTO(movie.getTitle(), movie.getAuthor(), movie.getDescription(), movie.getRelease_date(), movie.getCover_url());
-    }*/
-
+    public ResponseEntity<MovieDTO> getMovieById(Long id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        if (movie.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(objectMapper.convertValue(movie.get(), MovieDTO.class), HttpStatus.OK);
+    }
 }
