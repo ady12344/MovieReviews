@@ -1,9 +1,18 @@
-<div class="container mt-4">
-    <h2 class="mb-4 text-center">All Movies</h2>
+<!-- home.html -->
+<!-- Welcome Message -->
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <h2 class="text-white">🎬 Welcome to MovieReviews</h2>
+</div>
 
-    <!-- Genre filter dropdown -->
+<hr class="text-white">
+
+<!-- Movie List Section -->
+<div class="container mt-4" id="movieListSection">
+    <h3 class="mb-4 text-center" style="color:white">All Movies</h3>
+
+    <!-- Genre Filter -->
     <div class="mb-3">
-        <label for="genreSelect" class="form-label">Filter by Genre</label>
+        <label for="genreSelect" class="form-label text-white">Filter by Genre</label>
         <select class="form-select" id="genreSelect">
             <option value="">Select Genre</option>
             <option value="Action">Action</option>
@@ -27,10 +36,22 @@
         </select>
     </div>
 
-    <div id="movieContainer" class="row gy-4"></div>
+    <!-- Movie Grid -->
+    <div id="movieContainer" class="row gy-4">
+        <!-- Populated dynamically by showMovies.js -->
+    </div>
 
-    <!-- Pagination Container -->
+    <!-- Pagination -->
     <div id="paginationContainer" class="d-flex justify-content-center mt-4"></div>
+
 </div>
 
+<!-- Movie Detail Section (initially hidden) -->
+<div class="container mt-4" id="movieDetailSection" style="display: none;">
+    
+    <div id="movieDetail"></div>
+</div>
+
+<!-- Scripts -->
 <script data-external src="scripts/showMovies.js"></script>
+<script data-external src="scripts/movieDetail.js"></script>

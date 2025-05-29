@@ -9,6 +9,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        body {
+            background-image: url('assets/website/backgroundFain.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
         .nav-link {
             font-weight: bold;
             color: orange !important;
@@ -20,9 +29,21 @@
             font-weight: bold;
             color: orange !important;
         }
+
+        /* Optional overlay effect for better text visibility */
+        #content-wrapper {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            margin-bottom: 100px;
+            color: black;
+        }
     </style>
 </head>
 <body onload="loadPage('home.html')">
+
+<!-- Navbar -->
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid d-flex justify-content-between">
         <a class="navbar-brand" href="#">
@@ -34,42 +55,47 @@
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('about.html')">Despre</a></li>
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('contact.html')">Contact</a></li>
             <li class="nav-item">
-                <a class="nav-link text-white" id="profileBtn" style="display: none; font-weight: bold; color: orange !important;"></a>
+                <a class="nav-link text-white" id="profileBtn" style="display: none;"></a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div id="content" class="container mt-4"></div>
+<!-- Page Content -->
+<div class="container" id="content-wrapper">
+    <div id="content" class="mt-4"></div>
+</div>
 
+<!-- SPA Script Loader -->
 <script>
     function loadPage(page, callback) {
         fetch(page)
             .then(response => response.text())
-            .then(data => {
+            .then(html => {
                 const content = document.getElementById('content');
-                content.innerHTML = data;
+                content.innerHTML = html;
 
-                // Load external script if it exists
                 const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = data;
-                const scriptTag = tempDiv.querySelector('script[data-external]');
-                if (scriptTag) {
-                    const scriptSrc = scriptTag.getAttribute('src');
-                    const script = document.createElement('script');
-                    script.src = scriptSrc;
-                    script.setAttribute('defer', 'true');
-                    document.body.appendChild(script);
-                }
+                tempDiv.innerHTML = html;
 
-                if (callback) callback();
+                const scripts = tempDiv.querySelectorAll('script[data-external]');
+                scripts.forEach(tag => {
+                    const script = document.createElement('script');
+                    script.src = tag.getAttribute('src');
+                    script.defer = true;
+                    document.body.appendChild(script);
+                });
+
+                if (callback) setTimeout(callback, 300);
             })
-            .catch(error => console.error('Eroare la încărcarea paginii:', error));
+            .catch(err => {
+                console.error('Error loading page:', err);
+            });
     }
 </script>
-<script>
 
-    // Show username in navbar if logged in
+<!-- User Login Status -->
+<script>
     fetch('/api/v1/getCurrentUsername')
         .then(res => {
             if (res.ok) return res.text();
@@ -78,14 +104,16 @@
         .then(username => {
             const profileLink = document.getElementById('profileBtn');
             profileLink.textContent = username;
-            profileLink.style.display = 'inline'; // Make it visible
+            profileLink.style.display = 'inline';
         })
         .catch(() => {
-            // User is not logged in, don't show profile link
             document.getElementById('profileBtn').style.display = 'none';
         });
 </script>
+
+<!-- Other Scripts -->
 <script src="scripts/logout.js" defer></script>
 <script src="scripts/profile.js" defer></script>
+
 </body>
 </html>

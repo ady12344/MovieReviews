@@ -21,5 +21,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     // Modify this method to support pagination
     Page<Movie> findAllByGenreContaining(String genre, Pageable pageable);
-    Optional<List<Movie>> findAllByGenreContaining(String genre);
+
 }

@@ -23,7 +23,7 @@ class MovieReviewsApplicationTests {
 			List<String[]> rows = reader.readAll();
 			List<Movie> movies = new ArrayList<>();
 
-			for (int i = 1; i <= 20 && i < rows.size(); i++) {
+			for (int i = 1; i <= 1000 && i < rows.size(); i++) {
 				String[] row = rows.get(i);
 
 				Movie movie = new Movie();

@@ -3,12 +3,16 @@ package com.unitbv.MovieReviews.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unitbv.MovieReviews.model.dto.AddMovieDTO;
 import com.unitbv.MovieReviews.model.dto.EditMovieDTO;
+
 import com.unitbv.MovieReviews.model.dto.MovieDTO;
 import com.unitbv.MovieReviews.model.dto.RemoveMovieDTO;
 import com.unitbv.MovieReviews.model.entities.Movie;
 import com.unitbv.MovieReviews.repositories.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
