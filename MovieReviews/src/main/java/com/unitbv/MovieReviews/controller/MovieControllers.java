@@ -91,5 +91,15 @@ public class MovieControllers {
         return ResponseEntity.ok(movieService.searchMoviesByTitle(title, page, size));
     }
 
+   /* @GetMapping("/userReviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getUserReviews() {
+        return ResponseEntity.ok(reviewService.getReviewsByCurrentUser());
+    }*/
+    @GetMapping("/userReviewsPaged")
+    public ResponseEntity<Page<ReviewResponseDTO>> getUserReviewsPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(reviewService.getReviewsByCurrentUserPaged(PageRequest.of(page, size)));
+    }
 
 }

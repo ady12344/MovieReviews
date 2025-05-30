@@ -16,4 +16,5 @@ public class ReviewResponseDTO {
     private int rating;
     private LocalDateTime createdAt;
     private String username;
+    private String movieTitle;
 }

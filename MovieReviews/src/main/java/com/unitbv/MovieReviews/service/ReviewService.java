@@ -10,6 +10,8 @@ import com.unitbv.MovieReviews.repositories.ReviewRepository;
 import com.unitbv.MovieReviews.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MovieRepository movieRepository;
-
+    private final UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -61,5 +63,36 @@ public class ReviewService {
                         .build())
                 .collect(Collectors.toList());
     }
+  /*  public List<ReviewResponseDTO> getReviewsByCurrentUser() {
+
+        String username = userService.getCurrentUser();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return reviewRepository.findByUser(user).stream()
+                .map(review -> ReviewResponseDTO.builder()
+                        .comment(review.getComment())
+                        .rating(review.getRating())
+                        .createdAt(review.getCreatedAt())
+                        .username(user.getUsername())
+                        .build())
+                .collect(Collectors.toList());
+    }*/
+  public Page<ReviewResponseDTO> getReviewsByCurrentUserPaged(Pageable pageable) {
+      String username = userService.getCurrentUser();
+      User user = userRepository.findByUsername(username)
+              .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+      return reviewRepository.findByUser(user, pageable)
+              .map(review -> ReviewResponseDTO.builder()
+                      .comment(review.getComment())
+                      .rating(review.getRating())
+                      .createdAt(review.getCreatedAt())
+                      .username(user.getUsername())
+                      .movieTitle(review.getMovie().getTitle()) // ✅ Include movie title
+                      .build());
+  }
+
+
 
 }

@@ -261,8 +261,12 @@
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('about.html')">Despre</a></li>
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('contact.html')">Contact</a></li>
             <li class="nav-item">
+                <a class="nav-link text-white" onclick="loadPage('reviewsUser.html')">My Reviews</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-white" id="profileBtn" style="display: none;"></a>
             </li>
+
         </ul>
     </div>
 </nav>
@@ -293,12 +297,20 @@
                 });
 
                 if (callback) setTimeout(callback, 300);
+
+                // ✅ Smart SPA hook — triggers page-specific JS like loadUserReviews
+                setTimeout(() => {
+                    if (typeof onPageLoaded === 'function') {
+                        onPageLoaded();
+                    }
+                }, 400);
             })
             .catch(err => {
                 console.error('Error loading page:', err);
             });
     }
 </script>
+
 
 <!-- User Login Status -->
 <script>
