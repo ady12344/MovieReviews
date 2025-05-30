@@ -1,18 +1,17 @@
 package com.unitbv.MovieReviews.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unitbv.MovieReviews.model.dto.AddMovieDTO;
-import com.unitbv.MovieReviews.model.dto.EditMovieDTO;
-import com.unitbv.MovieReviews.model.dto.MovieDTO;
-import com.unitbv.MovieReviews.model.dto.RemoveMovieDTO;
+import com.unitbv.MovieReviews.model.dto.*;
 import com.unitbv.MovieReviews.service.MovieService;
+import com.unitbv.MovieReviews.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.unitbv.MovieReviews.model.dto.ReviewResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +33,6 @@ public class MovieControllers {
         Page<MovieDTO> moviePage = movieService.getAllMovies(pageable);
         return ResponseEntity.ok(moviePage);  // Return the page with pagination data
     }
-
-
 
     @PutMapping("/editMovie")
     public ResponseEntity<EditMovieDTO> editMovie(@RequestBody EditMovieDTO editMovieDTO) {
@@ -66,4 +63,25 @@ public class MovieControllers {
     public ResponseEntity<MovieDTO> getMoviesById(@RequestParam Long id) {
         return movieService.getMovieById(id);
     }
+
+    @Autowired
+    private ReviewService reviewService;
+    @PostMapping("/addReview")
+    public ResponseEntity<?> addReview(@RequestBody ReviewDTO review) {
+        reviewService.addReview(review);
+        return ResponseEntity.ok("Review submitted successfully");
+    }
+
+    @GetMapping("/getReviewsByMovie")
+    public ResponseEntity<?> getReviewsByMovie(@RequestParam Long movieId) {
+        return ResponseEntity.ok(reviewService.getReviewsForMovie(movieId));
+    }
+
+
+    @GetMapping("/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getReviews(@RequestParam Long movieId) {
+        return ResponseEntity.ok(reviewService.getReviewsForMovie(movieId));
+    }
+
+
 }
