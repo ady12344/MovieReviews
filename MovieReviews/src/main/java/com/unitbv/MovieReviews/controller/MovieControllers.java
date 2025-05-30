@@ -102,4 +102,11 @@ public class MovieControllers {
         return ResponseEntity.ok(reviewService.getReviewsByCurrentUserPaged(PageRequest.of(page, size)));
     }
 
+    @DeleteMapping("/deleteReview/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId) {
+        reviewService.deleteReviewById(reviewId);
+        return ResponseEntity.ok("Review deleted successfully");
+    }
+
+
 }

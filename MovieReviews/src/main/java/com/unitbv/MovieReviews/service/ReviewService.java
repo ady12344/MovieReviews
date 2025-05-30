@@ -78,6 +78,7 @@ public class ReviewService {
                         .build())
                 .collect(Collectors.toList());
     }*/
+
   public Page<ReviewResponseDTO> getReviewsByCurrentUserPaged(Pageable pageable) {
       String username = userService.getCurrentUser();
       User user = userRepository.findByUsername(username)
@@ -85,14 +86,26 @@ public class ReviewService {
 
       return reviewRepository.findByUser(user, pageable)
               .map(review -> ReviewResponseDTO.builder()
+                      .reviewId(review.getId())
                       .comment(review.getComment())
                       .rating(review.getRating())
                       .createdAt(review.getCreatedAt())
                       .username(user.getUsername())
-                      .movieTitle(review.getMovie().getTitle()) // ✅ Include movie title
+                      .movieTitle(review.getMovie().getTitle())
                       .build());
-  }
 
+  }
+    public void deleteReviewById(Long reviewId) {
+        String username = userService.getCurrentUser();
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("Review not found"));
+
+        if (!review.getUser().getUsername().equals(username)) {
+            throw new SecurityException("You are not authorized to delete this review");
+        }
+
+        reviewRepository.delete(review);
+    }
 
 
 }

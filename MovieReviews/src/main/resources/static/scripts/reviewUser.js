@@ -28,9 +28,19 @@ function loadUserReviews(page = 0) {
                     <p><strong>Movie:</strong> ${review.movieTitle}</p>
                     <p><strong>Rating:</strong> ${review.rating} ⭐</p>
                     <small><strong>Posted on:</strong> ${new Date(review.createdAt).toLocaleString()}</small>
+                    <br>
+                    <button id="deleteBtn-${review.reviewId}" class="btn btn-outline-danger glow-always mt-2">Delete</button>
                 `;
 
                 container.appendChild(card);
+            });
+
+            // Attach delete button event listeners
+            data.content.forEach(review => {
+                const deleteButton = document.getElementById(`deleteBtn-${review.reviewId}`);
+                if (deleteButton) {
+                    deleteButton.addEventListener('click', () => deleteReview(review.reviewId));
+                }
             });
 
             renderPagination(data.totalPages, currentPage);
@@ -41,6 +51,20 @@ function loadUserReviews(page = 0) {
             if (container) {
                 container.innerHTML = '<p class="text-danger">Failed to load your reviews.</p>';
             }
+        });
+}
+
+function deleteReview(reviewId) {
+    fetch(`/api/v1/deleteReview/${reviewId}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to delete review");
+            loadUserReviews(currentPage);
+        })
+        .catch(error => {
+            console.error("Error deleting review:", error);
+            alert("Failed to delete review.");
         });
 }
 
@@ -63,31 +87,25 @@ function renderPagination(totalPages, currentPage) {
         container.appendChild(btn);
     };
 
-    // First page
     createPageButton(0, '1', currentPage === 0);
 
-    // Left ellipsis
     if (currentPage > 3) {
         createPageButton(null, '...', false, true);
     }
 
-    // Middle pages
     for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages - 2, currentPage + 2); i++) {
         createPageButton(i, null, i === currentPage);
     }
 
-    // Right ellipsis
     if (currentPage < totalPages - 4) {
         createPageButton(null, '...', false, true);
     }
 
-    // Last page
     if (totalPages > 1) {
         createPageButton(totalPages - 1, totalPages.toString(), currentPage === totalPages - 1);
     }
 }
 
-// ✅ Called automatically after the page is loaded into #content
 window.onPageLoaded = () => {
     if (document.getElementById('userReviewsContainer')) {
         loadUserReviews(0);
