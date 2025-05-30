@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,4 +95,12 @@ public class MovieService {
         }
         return new ResponseEntity<>(objectMapper.convertValue(movie.get(), MovieDTO.class), HttpStatus.OK);
     }
+
+    public Page<MovieDTO> searchMoviesByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return movieRepository.findByTitleContainingIgnoreCase(title, pageable)
+                .map(movie -> objectMapper.convertValue(movie, MovieDTO.class));
+    }
+
+
 }

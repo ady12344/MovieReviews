@@ -53,7 +53,7 @@
 
         function createPageButton(pageNum, label = null) {
             const btn = document.createElement('button');
-            btn.className = 'btn btn-secondary mx-1';
+            btn.className = 'pagination-btn mx-1';
             btn.textContent = label ?? (pageNum + 1);
             btn.onclick = () => filterMoviesByGenre(pageNum);
             if (pageNum === currentPage) btn.classList.add('active');
@@ -63,7 +63,7 @@
         function addEllipsis() {
             const span = document.createElement('span');
             span.textContent = '...';
-            span.className = 'mx-2 text-muted';
+            span.className = 'pagination-ellipsis';
             paginationContainer.appendChild(span);
         }
 

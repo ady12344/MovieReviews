@@ -28,7 +28,213 @@
             font-weight: bold;
             color: orange !important;
         }
+        .pagination-ellipsis {
+            color: orange;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0 6px;
+            opacity: 0.7;
+            text-shadow: 0 0 5px orange;
+        }
 
+        #searchInput {
+            background-color: rgba(0, 0, 0, 0.5); /* transparent black */
+            color: orange;                       /* typing color */
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px orange;
+            outline: none;
+        }
+        /* Genre Dropdown Styling */
+        #genreSelect {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: orange;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px orange;
+            outline: none;
+            appearance: none; /* Optional: hide default arrow in some browsers */
+        }
+        #content-wrapper {
+            margin-top: 100px; /* adjust if your navbar height changes */
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7) !important; /* Transparent black */
+            box-shadow: 0 0 15px orange;
+            backdrop-filter: blur(6px); /* Optional: adds glass-like blur */
+            border-bottom: 1px solid orange;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: orange !important;
+            text-shadow: 0 0 5px orange;
+            letter-spacing: 1px;
+        }
+
+        .navbar-brand img {
+            filter: drop-shadow(0 0 5px orange);
+        }
+
+        .nav-link {
+            font-weight: bold;
+            color: orange !important;
+            transition: color 0.3s, text-shadow 0.3s;
+            text-shadow: 0 0 4px rgba(255, 165, 0, 0.6);
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+            text-shadow: 0 0 10px orange;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background-color: orange;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+        #profileContent {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid orange;
+            border-radius: 12px;
+            color: orange;
+            box-shadow: 0 0 15px orange;
+        }
+
+        #profileContent h3,
+        #profileContent p {
+            color: orange;
+            text-shadow: 0 0 6px orange;
+        }
+
+        #profileContent input.form-control {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid orange;
+            color: orange;
+            border-radius: 8px;
+            box-shadow: 0 0 5px orange;
+        }
+
+        #profileContent input.form-control::placeholder {
+            color: orange;
+            opacity: 0.7;
+        }
+
+        #profileContent input.form-control:focus {
+            box-shadow: 0 0 10px orange;
+            outline: none;
+        }
+
+        #passwordMessage {
+            color: orange;
+            font-weight: bold;
+            text-shadow: 0 0 5px orange;
+        }
+
+        /* Button Overrides */
+        #profileContent .btn-warning {
+            background-color: orange;
+            border: none;
+            color: black;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 0 10px orange;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #profileContent .btn-warning:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px orange;
+        }
+
+        #profileContent .btn-danger {
+            background-color: transparent;
+            border: 1px solid red;
+            color: red;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 0 8px red;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #profileContent .btn-danger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px red;
+            background-color: rgba(255, 0, 0, 0.2);
+        }
+
+
+        /* Style the dropdown arrow in WebKit browsers */
+        #genreSelect::-ms-expand {
+            display: none; /* IE */
+        }
+        .card {
+            background-color: rgba(0, 0, 0, 0.6); /* semi-transparent dark */
+            color: orange; /* default text color */
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-title, .card-text {
+            color: orange !important;
+        }
+        .pagination-btn {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: orange;
+            border: 1px solid orange;
+            border-radius: 8px;
+            padding: 6px 12px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover {
+            background-color: rgba(255, 165, 0, 0.1);
+            box-shadow: 0 0 10px orange;
+        }
+
+        .pagination-btn.active {
+            background-color: orange;
+            color: black;
+            box-shadow: 0 0 15px orange;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 12px orange;
+        }
+        #genreSelect option {
+            background-color: black;
+            color: orange;
+        }
+
+        #genreSelect:focus {
+            box-shadow: 0 0 15px orange;
+        }
+
+        #searchInput::placeholder {
+            color: orange; /* placeholder color */
+            opacity: 1;    /* make sure it's fully visible in all browsers */
+        }
+
+        #searchInput:focus {
+            box-shadow: 0 0 15px orange; /* stronger glow on focus */
+        }
         /* Optional overlay effect for better text visibility */
         #content-wrapper {
             background-color: rgba(0, 0, 0, 0.6);
@@ -43,7 +249,7 @@
 <body onload="loadPage('home.html')">
 
 <!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container-fluid d-flex justify-content-between">
         <a class="navbar-brand" href="#">
             <img src="assets/website/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">

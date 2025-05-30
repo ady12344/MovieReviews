@@ -83,5 +83,13 @@ public class MovieControllers {
         return ResponseEntity.ok(reviewService.getReviewsForMovie(movieId));
     }
 
+    @GetMapping("/searchMoviesByTitle")
+    public ResponseEntity<Page<MovieDTO>> searchMoviesByTitle(
+            @RequestParam String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        return ResponseEntity.ok(movieService.searchMoviesByTitle(title, page, size));
+    }
+
 
 }

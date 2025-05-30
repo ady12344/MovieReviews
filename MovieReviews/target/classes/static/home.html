@@ -10,6 +10,12 @@
 <div class="container mt-4" id="movieListSection">
     <h3 class="mb-4 text-center" style="color:white">All Movies</h3>
 
+    <!-- Movie Search -->
+    <div class="mb-3">
+        <label for="searchInput" class="form-label text-white">Search by Title</label>
+        <input type="text" id="searchInput" class="form-control" placeholder="Enter movie title">
+    </div>
+
     <!-- Genre Filter -->
     <div class="mb-3">
         <label for="genreSelect" class="form-label text-white">Filter by Genre</label>
@@ -38,7 +44,7 @@
 
     <!-- Movie Grid -->
     <div id="movieContainer" class="row gy-4">
-        <!-- Populated dynamically by showMovies.js -->
+        <!-- Populated dynamically by showMovies.js and searchMovies.js -->
     </div>
 
     <!-- Pagination -->
@@ -48,10 +54,10 @@
 
 <!-- Movie Detail Section (initially hidden) -->
 <div class="container mt-4" id="movieDetailSection" style="display: none;">
-    
     <div id="movieDetail"></div>
 </div>
 
 <!-- Scripts -->
 <script data-external src="scripts/showMovies.js"></script>
+<script data-external src="scripts/searchMovies.js"></script>
 <script data-external src="scripts/movieDetail.js"></script>
