@@ -289,27 +289,39 @@
                 tempDiv.innerHTML = html;
 
                 const scripts = tempDiv.querySelectorAll('script[data-external]');
-                scripts.forEach(tag => {
-                    const script = document.createElement('script');
-                    script.src = tag.getAttribute('src');
-                    script.defer = true;
-                    document.body.appendChild(script);
-                });
+                let scriptsLoaded = 0;
 
-                if (callback) setTimeout(callback, 300);
-
-                // ✅ Smart SPA hook — triggers page-specific JS like loadUserReviews
-                setTimeout(() => {
+                if (scripts.length === 0) {
+                    // If no external scripts, immediately run page callback
                     if (typeof onPageLoaded === 'function') {
                         onPageLoaded();
                     }
-                }, 400);
+                }
+
+                scripts.forEach(tag => {
+                    const script = document.createElement('script');
+                    script.src = tag.getAttribute('src');
+                    script.defer = false; // Run immediately when loaded
+                    script.onload = () => {
+                        scriptsLoaded++;
+                        if (scriptsLoaded === scripts.length) {
+                            // ✅ All external scripts have finished loading
+                            if (typeof onPageLoaded === 'function') {
+                                onPageLoaded();
+                            }
+                        }
+                    };
+                    document.body.appendChild(script);
+                });
+
+                if (callback) callback();
             })
             .catch(err => {
                 console.error('Error loading page:', err);
             });
     }
 </script>
+
 
 
 <!-- User Login Status -->

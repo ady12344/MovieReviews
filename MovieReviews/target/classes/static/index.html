@@ -261,8 +261,12 @@
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('about.html')">Despre</a></li>
             <li class="nav-item"><a class="nav-link text-white" onclick="loadPage('contact.html')">Contact</a></li>
             <li class="nav-item">
+                <a class="nav-link text-white" onclick="loadPage('reviewsUser.html')">My Reviews</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-white" id="profileBtn" style="display: none;"></a>
             </li>
+
         </ul>
     </div>
 </nav>
@@ -285,20 +289,40 @@
                 tempDiv.innerHTML = html;
 
                 const scripts = tempDiv.querySelectorAll('script[data-external]');
+                let scriptsLoaded = 0;
+
+                if (scripts.length === 0) {
+                    // If no external scripts, immediately run page callback
+                    if (typeof onPageLoaded === 'function') {
+                        onPageLoaded();
+                    }
+                }
+
                 scripts.forEach(tag => {
                     const script = document.createElement('script');
                     script.src = tag.getAttribute('src');
-                    script.defer = true;
+                    script.defer = false; // Run immediately when loaded
+                    script.onload = () => {
+                        scriptsLoaded++;
+                        if (scriptsLoaded === scripts.length) {
+                            // ✅ All external scripts have finished loading
+                            if (typeof onPageLoaded === 'function') {
+                                onPageLoaded();
+                            }
+                        }
+                    };
                     document.body.appendChild(script);
                 });
 
-                if (callback) setTimeout(callback, 300);
+                if (callback) callback();
             })
             .catch(err => {
                 console.error('Error loading page:', err);
             });
     }
 </script>
+
+
 
 <!-- User Login Status -->
 <script>
