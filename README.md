@@ -32,5 +32,17 @@ Caracteristici site:
 - Sectiune de My Reviews unde utilizatorul poate vedea filmele la care a lasat recenzii.
 
 
+Pentru testarea API-urilor prezente in aplicatie se poate accesa SWAGGER numai daca utilizatorul este logat. (Dupa ce va logati se poate accesa url-ul urmator http://localhost:8080/swagger-ui/index.html)
+
+
+
+
+
+
+
+
+
+
+
 
 
