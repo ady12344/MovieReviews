@@ -1,6 +1,6 @@
 package com.unitbv.MovieReviews.service;
 
-import com.unitbv.MovieReviews.model.dto.ChangePasswordDTO;
+
 import com.unitbv.MovieReviews.model.dto.UserProfilDTO;
 import com.unitbv.MovieReviews.model.entities.User;
 import com.unitbv.MovieReviews.model.dto.AddUserDTO;
@@ -25,9 +25,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.Authenticator;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service

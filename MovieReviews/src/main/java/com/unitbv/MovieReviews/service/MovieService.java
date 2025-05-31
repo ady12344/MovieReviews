@@ -17,12 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 
 @RequiredArgsConstructor
@@ -82,7 +79,7 @@ public class MovieService {
         return new ResponseEntity<>(removeMovieDTO, HttpStatus.OK);
     }
 
-    // Modify getMoviesByGenre to accept Pageable and return a Page<MovieDTO>
+
     public Page<MovieDTO> getMoviesByGenre(String genre, Pageable pageable) {
         return movieRepository.findAllByGenreContaining(genre, pageable)
                 .map(movie -> objectMapper.convertValue(movie, MovieDTO.class));

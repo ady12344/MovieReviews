@@ -31,8 +31,8 @@
                             <img src="${movie.cover_url}" class="card-img-top" alt="${movie.title}" style="height: 300px; object-fit: cover;">
                             <div class="card-body">
                                 <h5 class="card-title">${movie.title}</h5>
-                                <p class="card-text"><strong>Author:</strong> ${movie.author}</p>
-                                <p class="card-text"><strong>Rating:</strong> ⭐ ${movie.rating}</p>
+                                <p class="card-text"><strong>Director:</strong> ${movie.author}</p>
+                                <p class="card-text"><strong>IMDb Rating:</strong> ⭐ ${movie.rating}</p>
                             </div>
                         </div>
                     `;

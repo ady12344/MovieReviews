@@ -31,7 +31,7 @@ public class MovieControllers {
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<MovieDTO> moviePage = movieService.getAllMovies(pageable);
-        return ResponseEntity.ok(moviePage);  // Return the page with pagination data
+        return ResponseEntity.ok(moviePage);
     }
 
     @PutMapping("/editMovie")
@@ -56,7 +56,7 @@ public class MovieControllers {
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<MovieDTO> moviePage = movieService.getMoviesByGenre(genre, pageable);
-        return ResponseEntity.ok(moviePage);  // Spring will automatically return totalPages, totalElements, etc.
+        return ResponseEntity.ok(moviePage);
     }
 
     @GetMapping("/getMovieById")
@@ -91,10 +91,7 @@ public class MovieControllers {
         return ResponseEntity.ok(movieService.searchMoviesByTitle(title, page, size));
     }
 
-   /* @GetMapping("/userReviews")
-    public ResponseEntity<List<ReviewResponseDTO>> getUserReviews() {
-        return ResponseEntity.ok(reviewService.getReviewsByCurrentUser());
-    }*/
+
     @GetMapping("/userReviewsPaged")
     public ResponseEntity<Page<ReviewResponseDTO>> getUserReviewsPaged(
             @RequestParam(defaultValue = "0") int page,

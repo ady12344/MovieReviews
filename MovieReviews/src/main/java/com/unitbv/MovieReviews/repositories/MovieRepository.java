@@ -19,7 +19,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     Optional<Movie> findByAuthor(String author);
     Optional<Movie> findByTitleAndAuthor(String title, String author);
 
-    // Modify this method to support pagination
     Page<Movie> findAllByGenreContaining(String genre, Pageable pageable);
     Page<Movie> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 
