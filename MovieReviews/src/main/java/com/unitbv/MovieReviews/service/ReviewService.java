@@ -97,15 +97,14 @@ public class ReviewService {
   }
     public void deleteReviewById(Long reviewId) {
         String username = userService.getCurrentUser();
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("Review not found"));
 
-        if (!review.getUser().getUsername().equals(username)) {
-            throw new SecurityException("You are not authorized to delete this review");
+        int deletedCount = reviewRepository.deleteByIdAndUsername(reviewId, username);
+
+        if (deletedCount == 0) {
+            throw new SecurityException("You are not authorized to delete this review or review does not exist.");
         }
-
-        reviewRepository.delete(review);
     }
+
 
 
 }
