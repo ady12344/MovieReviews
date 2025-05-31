@@ -68,7 +68,6 @@ window.loadMovieDetailSPA = function(id) {
                 </div>
             `;
 
-            // Style all themed buttons
             document.querySelectorAll('.themed-btn').forEach(btn => {
                 btn.style.border = '1px solid orange';
                 btn.style.backgroundColor = 'transparent';
@@ -84,7 +83,6 @@ window.loadMovieDetailSPA = function(id) {
                 });
             });
 
-            // Style inputs and selects
             document.querySelectorAll('.themed-input').forEach(el => {
                 el.style.backgroundColor = 'transparent';
                 el.style.color = 'orange';
@@ -114,7 +112,6 @@ window.loadMovieDetailSPA = function(id) {
                 }
             });
 
-            // Inject style for select option elements
             const style = document.createElement('style');
             style.textContent = `
                 select.themed-input option {

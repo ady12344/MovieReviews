@@ -63,21 +63,6 @@ public class ReviewService {
                         .build())
                 .collect(Collectors.toList());
     }
-  /*  public List<ReviewResponseDTO> getReviewsByCurrentUser() {
-
-        String username = userService.getCurrentUser();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return reviewRepository.findByUser(user).stream()
-                .map(review -> ReviewResponseDTO.builder()
-                        .comment(review.getComment())
-                        .rating(review.getRating())
-                        .createdAt(review.getCreatedAt())
-                        .username(user.getUsername())
-                        .build())
-                .collect(Collectors.toList());
-    }*/
 
   public Page<ReviewResponseDTO> getReviewsByCurrentUserPaged(Pageable pageable) {
       String username = userService.getCurrentUser();

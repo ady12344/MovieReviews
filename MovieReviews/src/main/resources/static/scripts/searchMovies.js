@@ -67,7 +67,6 @@
             currentPage = 0;
 
             if (query === '') {
-                // Clear results and re-run genre filter logic
                 const event = new Event('change');
                 genreSelect.dispatchEvent(event);
                 return;

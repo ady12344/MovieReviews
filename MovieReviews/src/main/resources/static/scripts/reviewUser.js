@@ -35,7 +35,6 @@ function loadUserReviews(page = 0) {
                 container.appendChild(card);
             });
 
-            // Attach delete button event listeners
             data.content.forEach(review => {
                 const deleteButton = document.getElementById(`deleteBtn-${review.reviewId}`);
                 if (deleteButton) {

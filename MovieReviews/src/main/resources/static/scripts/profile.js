@@ -8,13 +8,10 @@ document.getElementById('profileBtn').addEventListener('click', () => {
             fetch(`/api/v1/getUserByUsername?username=${encodeURIComponent(username)}`)
                 .then(res => res.json())
                 .then(data => {
-                    // Load profile.html and initialize after it’s loaded
                     loadPage('profile.html', () => {
-                        // Set username and email
                         document.getElementById('greeting').innerText = `Hello, ${data.username}`;
                         document.getElementById('email').innerText = `Email: ${data.email}`;
 
-                        // Handle password change form
                         const passwordForm = document.getElementById('passwordForm');
                         const messageDiv = document.getElementById('passwordMessage');
 
@@ -53,7 +50,6 @@ document.getElementById('profileBtn').addEventListener('click', () => {
                                 });
                         });
 
-                        // Handle logout button
                         const logoutButton = document.getElementById('logoutBtn');
                         logoutButton.addEventListener('click', logout);
                     });

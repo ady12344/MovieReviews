@@ -67,13 +67,12 @@
             paginationContainer.appendChild(span);
         }
 
-        const maxVisible = 5; // pages shown around current one (e.g. 2 before and after)
+        const maxVisible = 5;
         const sideCount = Math.floor(maxVisible / 2);
 
         const start = Math.max(1, currentPage - sideCount);
         const end = Math.min(totalPages - 2, currentPage + sideCount);
 
-        // Always show first page
         paginationContainer.appendChild(createPageButton(0));
 
         if (start > 1) addEllipsis();
@@ -84,7 +83,6 @@
 
         if (end < totalPages - 2) addEllipsis();
 
-        // Always show last page
         paginationContainer.appendChild(createPageButton(totalPages - 1));
     }
 
